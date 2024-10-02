@@ -56,7 +56,8 @@ public class teleport_continuous : MonoBehaviour
 
     private void OnDestroy()
     {
-        _teleportActivate.performed -= OnTeleportActivate;
+        _teleportActivate.canceled -= OnTeleportActivate;
+        _teleportActivate.started -= OnRayActivate;
         _teleportCancel.performed -= OnTeleportCancel;
     }
     // Update is called once per frame
@@ -77,6 +78,12 @@ public class teleport_continuous : MonoBehaviour
             return;
         }
         if (!rayInteractor.TryGetCurrent3DRaycastHit(out RaycastHit raycastHit))
+        {
+            rayInteractor.enabled = false;
+            _teleportIsActive = false;
+            return;
+        }
+        if (raycastHit.collider.gameObject.layer != 0)
         {
             rayInteractor.enabled = false;
             _teleportIsActive = false;

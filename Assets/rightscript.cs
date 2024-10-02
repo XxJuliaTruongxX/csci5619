@@ -78,6 +78,12 @@ public class rightscript : MonoBehaviour
             _teleportIsActive = false;
             return;
         }
+        if (raycastHit.collider.gameObject.layer != 0)
+        {
+            rayInteractor.enabled = false;
+            _teleportIsActive = false;
+            return;
+        }
         TeleportRequest teleportRequest = new TeleportRequest();
         teleportRequest.destinationPosition = raycastHit.point;
         
